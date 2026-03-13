@@ -1,0 +1,40 @@
+---
+title: "Assignment 6 — Approach"
+author: "Mark Hamer"
+date: "March 12, 2026"
+output: html_document
+---
+
+## Overview
+
+The goal of this project is to find out whether great screenplays share measurable structural and narrative patterns. To do that, we built a dataset of eleven critically acclaimed screenplays spanning 1952 to 2025 — Ikiru, Thelma & Louise, Boogie Nights, Eyes Wide Shut, Moonlight, Get Out, Parasite, Portrait of a Lady on Fire, Aftersun, Sentimental Value, and Sinners. The selection covers six countries, seven decades, solo and co-written scripts, and both original and adapted source material.
+
+The project works across three datasets that will be built, cleaned, and joined in R. Findings will be visualized in ggplot2 and Tableau, and the final report will be published to RPubs as a Quarto document.
+
+---
+
+## Dataset 1 — Screenplay Metadata
+
+The first dataset was built manually. For each of the eleven films we recorded the title, writer(s), year, genre, runtime, page count, Rotten Tomatoes score, major awards won, and whether the screenplay is original or adapted. The data was created in two formats — an HTML table and a JSON file — both written by hand. In R, we'll load both formats using `rvest` and `jsonlite`, confirm they produce identical data frames, and use the metadata to set up comparisons that run through the rest of the project.
+
+---
+
+## Dataset 2 — Structural Features
+
+The second dataset comes from parsing the screenplay PDFs directly in R using `pdftools` and `stringr`. Because screenplays follow consistent formatting conventions — scene headings in all caps, character names centered above dialogue — we can extract quantitative features automatically: scene count, scene density, dialogue ratio, action line ratio, unique character count, and unique location count. Four of the eleven screenplays had OCR or formatting issues that made automated scene counting unreliable, so those will be noted as NA and excluded from scene-specific comparisons.
+
+---
+
+## Dataset 3 — Story Beat Sheet
+
+The third dataset was coded by hand. Each screenplay was read and annotated for six structural moments: the inciting incident, Act 1 climax, midpoint, Act 2 climax, climax, and resolution. All beat positions are recorded as page numbers and will be converted to percentages of total screenplay length in R so that films of different lengths can be compared on the same scale. Some beats — particularly in more experimental films like Aftersun and Ikiru — are inherently interpretive, and those judgment calls are documented in the dataset's notes column.
+
+---
+
+## Anticipated Challenges
+
+The biggest technical challenge is PDF inconsistency — screenplay files from different sources use different formatting, which affects how reliably we can extract scene and dialogue counts. We'll validate automated extractions against manual spot-checks and flag anything that looks off.
+
+On the analytical side, the dataset is small at eleven films, so any patterns we find are exploratory rather than statistically conclusive. We'll frame the findings accordingly. There's also a cultural comparability issue: Ikiru was written in a Japanese screenplay tradition that doesn't map cleanly onto Hollywood three-act structure, and that limitation will be noted wherever it affects the analysis.
+
+Finally, manual beat coding is subjective by nature. Reasonable people could disagree on where exactly the inciting incident falls in Aftersun or what counts as the midpoint in Moonlight's triptych structure. Those calls are documented and open to discussion.
